@@ -1,0 +1,547 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weekly Quiz</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1794549365/IMG_3639-Photoroom_jciw5l.png"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* RESET */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      /* BODY */
+      body {
+        padding-top: 120px; /* ✅ ADDED: match home spacing */
+        background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+        color: #1e293b; /* ✅ ADDED */
+      }
+
+         p {
+        margin-bottom: 25px;
+        color: #475569;
+      }
+
+      /* ========================= */
+      /* ✅ ADDED: EXACT HOME NAVBAR */
+      /* ========================= */
+
+      .header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 40px;
+        background: white;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        z-index: 1000; /* ✅ ADDED */
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo img {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px; /* ✅ ADDED */
+      }
+
+      .logo span {
+        font-weight: 700;
+        font-size: 18px; /* ✅ ADDED */
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-links a {
+        margin-left: 20px;
+        text-decoration: none;
+        color: #1e293b;
+        font-weight: 500;
+        transition: 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #3b82f6;
+      }
+
+      .menu-btn {
+        display: none;
+        font-size: 26px;
+        cursor: pointer;
+      }
+
+      /* MOBILE NAV */
+      @media (max-width: 768px) {
+        .menu-btn {
+          display: block;
+        }
+
+        .nav-links {
+          position: absolute;
+          top: 70px;
+          left: 0;
+          width: 100%;
+          background: white;
+          flex-direction: column;
+          display: none;
+          padding: 10px 0;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links a {
+          margin: 15px 0;
+          text-align: center;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+      }
+
+      /* ========================= */
+      /* QUIZ STYLES (UNCHANGED) */
+      /* ========================= */
+
+      .container {
+        text-align: center;
+        padding: 40px;
+      }
+
+      .quiz-box {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        max-width: 520px;
+        margin: auto;
+      }
+
+      .game-top {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        font-size: 14px;
+      }
+
+      .progress {
+        height: 10px;
+        background: #e2e8f0;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+
+      .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: #3b82f6;
+      }
+
+      .question {
+        font-size: 20px;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+
+      .option {
+        display: block;
+        background: #f1f5f9;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .option:hover {
+        transform: scale(1.03);
+        background: #e2e8f0;
+      }
+
+      .correct {
+        background: #22c55e !important;
+        color: white;
+      }
+      .wrong {
+        background: #ef4444 !important;
+        color: white;
+      }
+      .disabled {
+        pointer-events: none;
+        opacity: 0.7;
+      }
+
+      .btn {
+        margin-top: 20px;
+        padding: 12px 20px;
+        border: none;
+        background: #3b82f6;
+        color: white;
+        border-radius: 25px;
+        cursor: pointer;
+      }
+
+      /* 🎉 TRANSITION */
+      .fade {
+        animation: fade 0.6s ease;
+      }
+      @keyframes fade {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+           /* ========================= */
+      /* FOOTER */
+      /* ========================= */
+
+      .footer {
+        background: #0f172a;
+        color: #cbd5f5;
+        padding: 50px 40px 20px;
+        margin-top: 50px;
+      }
+
+      .footer-container {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 30px;
+      }
+
+      .footer-col {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .footer-col h2,
+      .footer-col h3 {
+        color: white;
+        margin-bottom: 15px;
+      }
+
+      .footer-col p {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 8px 0;
+      }
+      .footer-col a {
+        display: block;
+        text-decoration: none;
+        color: #cbd5f5;
+        margin: 8px 0;
+        transition: 0.3s;
+        font-size: 14px;
+      }
+
+      .footer-col a:hover {
+        color: #3b82f6;
+        transform: translateX(5px);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 30px;
+        padding-top: 15px;
+        font-size: 13px;
+        color: #94a3b8;
+      }
+
+      /* MOBILE */
+      @media (max-width: 768px) {
+        .footer-container {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .footer-col a:hover {
+          transform: none;
+        }
+      }
+
+      .footer-col a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .footer-col a i {
+        color: #1877f2;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("navLinks").classList.toggle("active");
+    }
+  </script>
+
+  <body>
+    <!-- ✅ NAVBAR -->
+    <div class="header">
+      <div class="logo">
+        <img
+          src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1794549365/IMG_3639-Photoroom_jciw5l.png"
+        />
+        <span>NReducation</span>
+      </div>
+
+      <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+<div class="nav-links" id="navLinks">
+        <a href="home.html">Home</a>
+        <a href="Time_Table.html">Time Tables</a>
+        <a href="Student_Review.html">Reviews</a>
+        <a href="Weekly_Quiz.html">Quiz</a>
+        <a href="Class_Video_Links.html">Videos</a>
+      </div>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="container">
+      <div class="quiz-box">
+        <div class="game-top">
+          <div>Question <span id="qNum">1</span></div>
+          <div>⏱ <span id="timer">10</span>s</div>
+        </div>
+
+        <div class="progress">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div id="quiz"></div>
+        <button class="btn" onclick="nextQuestion()">Next</button>
+      </div>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          question: "What is 2 + 2?",
+          options: ["3", "4", "5", "6"],
+          answer: 1,
+        },
+        {
+          question: "What is 10 - 3?",
+          options: ["5", "6", "7", "8"],
+          answer: 2,
+        },
+        {
+          question: "What is 7 × 8?",
+          options: ["54", "56", "58", "60"],
+          answer: 1,
+        },
+        {
+          question: "What is 20 ÷ 5?",
+          options: ["2", "3", "4", "5"],
+          answer: 2,
+        },
+      ];
+
+      let current = 0;
+      let score = 0;
+      let finalStep = 0;
+
+      let time = 10;
+      let interval;
+
+      function loadQuestion() {
+        clearInterval(interval);
+        time = 10;
+        document.getElementById("timer").innerText = time;
+
+        interval = setInterval(() => {
+          time--;
+          document.getElementById("timer").innerText = time;
+          if (time === 0) {
+            clearInterval(interval);
+            nextQuestion();
+          }
+        }, 1000);
+
+        const q = questions[current];
+        document.getElementById("qNum").innerText = current + 1;
+
+        document.getElementById("progressBar").style.width =
+          (current / questions.length) * 100 + "%";
+
+        let html = `<div class="question">${q.question}</div>`;
+
+        q.options.forEach((opt, i) => {
+          html += `<div class="option" onclick="selectAnswer(${i})">${opt}</div>`;
+        });
+
+        document.getElementById("quiz").innerHTML = html;
+      }
+
+      function selectAnswer(i) {
+        clearInterval(interval);
+
+        const q = questions[current];
+        const options = document.querySelectorAll(".option");
+
+        options.forEach((opt, index) => {
+          opt.classList.add("disabled");
+
+          if (index === q.answer) {
+            opt.classList.add("correct");
+          } else if (index === i) {
+            opt.classList.add("wrong");
+          }
+        });
+
+        if (i === q.answer) {
+          score++;
+        }
+      }
+
+      function nextQuestion() {
+        current++;
+
+        if (current < questions.length) {
+          loadQuestion();
+        } else {
+          if (finalStep === 0) {
+            document.getElementById("quiz").innerHTML = `
+                <div class="fade">
+                    <h2>🎯 Ready for your result?</h2>
+                    <p>Click next to continue...</p>
+                </div>
+            `;
+            finalStep++;
+          } else if (finalStep === 1) {
+            document.getElementById("quiz").innerHTML = `
+                <div class="fade">
+                    <h2>⏳ Calculating your score...</h2>
+                    <p>Please wait...</p>
+                </div>
+            `;
+            finalStep++;
+          } else {
+            document.getElementById("quiz").innerHTML = `
+                <div class="fade">
+                    <h2>🎉 Congratulations!</h2>
+                    <p>Your Score: ${score} / ${questions.length}</p>
+                    <button class="btn" onclick="restartGame()">Play Again 🔄</button>
+                </div>
+            `;
+          }
+        }
+      }
+
+      function restartGame() {
+        current = 0;
+        score = 0;
+        finalStep = 0;
+        loadQuestion();
+      }
+
+      loadQuestion();
+    </script>
+
+        <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-container">
+        <!-- BRAND -->
+        <div class="footer-col">
+          <h2>NREducation 🚀</h2>
+          <p>
+            Empowering students with Maths & ICT knowledge to achieve top
+            results and build a successful future.
+          </p>
+        </div>
+
+        <!-- QUICK LINKS -->
+        <div class="footer-col">
+          <h3>Quick Links</h3>
+          <a href="home.html">Home</a>
+          <a href="Time_Table.html">Time Tables</a>
+          <a href="Student_Review.html">Reviews</a>
+          <a href="Weekly_Quiz.html">Quiz</a>
+          <a href="Class_Video_Links.html">Videos</a>
+        </div>
+
+        <!-- SERVICES -->
+        <div class="footer-col">
+          <h3>Services</h3>
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSdWyI6p3mHDDFbtMcj0f5zIT7nVaXAnKAlBcxYtKg0IvTLGvw/viewform?usp=header"
+            >Student Registration</a
+          >
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSc1dK6DBDRpyT3KgSD_3w4opnd2MuaLVDZKKyJaVGrOVAyVNw/viewform?usp=header"
+            >Class Fee Payment</a
+          >
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLScw7QFFCH4atpu9po5DxLhgL0ZffnWOTL1cKf8aJtyj2FWbhw/viewform?usp=header"
+            >Tute Request</a
+          >
+        </div>
+
+        <!-- CONTACT -->
+        <div class="footer-col">
+          <h3>Contact</h3>
+
+          <a href="tel:+94777916290">
+            <i class="fas fa-phone"></i> +94 77 791 6290
+          </a>
+          <p>📍 Sri Lanka</p>
+
+          <a href="https://wa.me/94777916290">💬 WhatsApp</a>
+
+          <!-- FACEBOOK -->
+          <a
+            href="https://www.facebook.com/share/18apyCLFqY/?mibextid=wwXIfr"
+            target="_blank"
+          >
+            <i class="fab fa-facebook"></i> NREducation.lk
+          </a>
+        </div>
+      </div>
+
+      <!-- BOTTOM -->
+      <div class="footer-bottom">
+        <p>© 2026 NREducation | All Rights Reserved</p>
+      </div>
+    </footer>
+  </body>
+</html>

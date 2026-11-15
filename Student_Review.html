@@ -1,0 +1,694 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reviews</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1794549365/IMG_3639-Photoroom_jciw5l.png"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* RESET */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      /* BODY */
+      body {
+        padding-top: 100px;
+        background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      }
+
+      p {
+        margin-bottom: 25px;
+        color: #475569;
+      }
+
+      /* NAVBAR */
+      .header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 40px;
+        background: white;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        z-index: 1000;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo img {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+      }
+
+      .logo span {
+        font-weight: 700;
+        font-size: 18px;
+      }
+
+      /* NAV LINKS */
+      .nav-links {
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-links a {
+        margin-left: 20px;
+        text-decoration: none;
+        color: #1e293b;
+        font-weight: 500;
+        transition: 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #3b82f6;
+      }
+
+      /* HAMBURGER */
+      .menu-btn {
+        display: none;
+        font-size: 26px;
+        cursor: pointer;
+      }
+
+      /* MOBILE NAV */
+      @media (max-width: 768px) {
+        .menu-btn {
+          display: block;
+        }
+
+        .nav-links {
+          position: absolute;
+          top: 70px;
+          left: 0;
+          width: 100%;
+          background: white;
+          flex-direction: column;
+          display: none;
+          padding: 10px 0;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links a {
+          margin: 15px 0;
+          text-align: center;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+      }
+      /* CONTAINER */
+      .container {
+        padding: 40px;
+      }
+
+      /* TITLE SECTION */
+      .section-title {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .section-title h1 {
+        font-size: 32px;
+      }
+
+      .section-title p {
+        color: #475569;
+        margin-top: 5px;
+      }
+
+      /* RESULTS SECTION */
+      .results {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        margin-bottom: 40px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .results h2 {
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
+
+      .results p {
+        font-size: 16px;
+        opacity: 0.9;
+      }
+
+      /* CARDS GRID */
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 25px;
+      }
+
+      /* CARD */
+      .card {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: 0.3s;
+      }
+
+      .card:hover {
+        transform: translateY(-8px);
+      }
+
+      /* IMAGE */
+      .card img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 10px;
+      }
+
+      /* NAME */
+      .card h3 {
+        margin-bottom: 5px;
+      }
+
+      /* INDEX */
+      .index {
+        font-size: 14px;
+        color: #64748b;
+      }
+
+      /* GRADE */
+      .grade-big {
+        font-size: 32px;
+        font-weight: 700;
+        color: #22c55e;
+        margin: 10px 0 5px 0;
+      }
+
+      /* SUBJECT */
+      .subject-text {
+        font-size: 14px;
+        color: #475569;
+        margin-bottom: 10px;
+      }
+
+      /* REVIEW */
+      .review-text {
+        font-size: 14px;
+        color: #475569;
+      }
+
+      /* coming soon */
+      .coming-soon {
+        background: linear-gradient(135deg, #ffffff, #f1f5f9);
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        max-width: 500px;
+        margin: auto;
+        transition: 0.3s;
+      }
+
+      .coming-soon:hover {
+        transform: translateY(-5px);
+      }
+
+      .coming-soon .icon {
+        font-size: 40px;
+        margin-bottom: 10px;
+      }
+
+      .coming-soon h2 {
+        font-size: 28px;
+        color: #1e293b;
+        margin-bottom: 10px;
+      }
+
+      .coming-soon p {
+        color: #475569;
+        font-size: 16px;
+      }
+
+      .coming-soon .sub {
+        margin-top: 8px;
+        font-size: 14px;
+        color: #64748b;
+      }
+
+      /* ========================= */
+      /* FOOTER */
+      /* ========================= */
+
+      .footer {
+        background: #0f172a;
+        color: #cbd5f5;
+        padding: 50px 40px 20px;
+        margin-top: 50px;
+      }
+
+      .footer-container {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 30px;
+      }
+
+      .footer-col {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .footer-col h2,
+      .footer-col h3 {
+        color: white;
+        margin-bottom: 15px;
+      }
+
+      .footer-col p {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 8px 0;
+      }
+      .footer-col a {
+        display: block;
+        text-decoration: none;
+        color: #cbd5f5;
+        margin: 8px 0;
+        transition: 0.3s;
+        font-size: 14px;
+      }
+
+      .footer-col a:hover {
+        color: #3b82f6;
+        transform: translateX(5px);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 30px;
+        padding-top: 15px;
+        font-size: 13px;
+        color: #94a3b8;
+      }
+
+      /* MOBILE */
+      @media (max-width: 768px) {
+        .footer-container {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .footer-col a:hover {
+          transform: none;
+        }
+      }
+
+      .footer-col a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .footer-col a i {
+        color: #1877f2;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("navLinks").classList.toggle("active");
+    }
+  </script>
+
+  <body>
+    <!-- NAVBAR -->
+    <div class="header">
+      <div class="logo">
+        <img
+          src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1794549365/IMG_3639-Photoroom_jciw5l.png"
+        />
+        <span>NReducation</span>
+      </div>
+
+      <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+      <div class="nav-links" id="navLinks">
+        <a href="home.html">Home</a>
+        <a href="Time_Table.html">Time Tables</a>
+        <a href="Student_Review.html">Reviews</a>
+        <a href="Weekly_Quiz.html">Quiz</a>
+        <a href="Class_Video_Links.html">Videos</a>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="container">
+      <!-- TITLE -->
+      <div class="section-title">
+        <h1>Student Success & Reviews</h1>
+        <p>Real results from our students</p>
+      </div>
+
+      <!-- RESULTS SECTION -->
+      <div class="results">
+        <h2>🎯 2025 (2026) O/L Results</h2>
+        <p>Our students achieved outstanding results with top grades</p>
+      </div>
+
+      <!-- CARDS -->
+
+      <!-- <div class="coming-soon">
+    <div class="icon">🚧</div>
+    <h2>Coming Soon</h2>
+    <p>The 2025 O/L results are not yet released.</p>
+    <p class="sub">Stay tuned — results will be updated here once released.</p>
+</div> -->
+
+      <div class="cards">
+        <div class="card">
+          <img
+            src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783430992/2025%20OL/IMG_20260620_104734_173_-_Methuka_Dias_1_frstv0.jpg"
+          />
+          <h3>Methuka dias</h3>
+          <div class="index">Index: 53722574</div>
+
+          <div class="grade-big">A</div>
+          <div class="subject-text">For Maths</div>
+
+          <p class="review-text">B ekk ei kiyala hithuwe ,but A ekk awa sir</p>
+        </div>
+
+        <div class="card">
+          <img src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783432821/2025%20OL/IMG_20260626_165650_-_Sasmitha_Vibuddha_o7dskn.jpg" />
+          <h3>M.A.Sasmitha Vibuddha</h3>
+          <div class="index">Index: 53722612</div>
+
+          <div class="grade-big">A</div>
+          <div class="subject-text">For Maths</div>
+
+          <p class="review-text">Fantabulous</p>
+        </div>
+
+        <div class="card">
+          <img src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783432820/2025%20OL/0_1000009847_-_Wathsilu_Tamalsha_1_cacbff.jpg" />
+          <h3>Wathsilu Hapugahawatta</h3>
+          <div class="index">Index: 345678</div>
+
+          <div class="grade-big">A</div>
+          <div class="subject-text">For Maths</div>
+
+          <p class="review-text">Best maths class</p>
+        </div>
+
+        <div class="card">
+          <img src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783433474/2025%20OL/IMG_6377_3_sq0lyz.jpg" />
+          <h3>Nethuki kavithya Gajanayaka</h3>
+          <div class="index">Index: 53606264</div>
+
+          <div class="grade-big">A</div>
+          <div class="subject-text">For Maths</div>
+
+          <p class="review-text">Good</p>
+        </div>
+
+        <div class="card">
+          <img src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783433475/2025%20OL/IMG_1431_fmghcg.jpg" />
+          <h3>Himaru pabasara</h3>
+          <div class="index">Index: 53722809</div>
+
+          <div class="grade-big">A</div>
+          <div class="subject-text">For Maths</div>
+
+          <p class="review-text">Excellent</p>
+        </div>
+
+        <div class="card">
+          <img src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783432827/2025%20OL/IMG_20260528_134637_-_JAP_Max_1_sn7tsr.jpg" />
+          <h3>Akash Pramuditha</h3>
+          <div class="index">Index: 53722523</div>
+
+          <div class="grade-big">B</div>
+          <div class="subject-text">For Maths</div>
+
+          <p class="review-text">Good</p>
+        </div>
+
+        <div class="card">
+          <img src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783434065/2025%20OL/IMG_1456_ckmuxy.jpg" />
+          <h3>Thumira prabhashwara</h3>
+          <div class="index">Index: 53722426</div>
+
+          <div class="grade-big">B</div>
+          <div class="subject-text">For Maths</div>
+
+          <p class="review-text">
+            We can clearly understand the lessons and it's is very helpful to
+            learn Highly recommend
+          </p>
+        </div>
+
+        <div class="card">
+          <img src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783432821/2025%20OL/IMG_20260626_165650_-_Sasmitha_Vibuddha_o7dskn.jpg" />
+          <h3>M.A.Sasmitha Vibuddha</h3>
+          <div class="index">Index: 53722612</div>
+
+          <div class="grade-big">A</div>
+          <div class="subject-text">For ICT</div>
+
+          <p class="review-text">Fantabulous</p>
+        </div>
+
+        <div class="card">
+          <img src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783433474/2025%20OL/IMG_6377_3_sq0lyz.jpg" />
+          <h3>Nethuki kavithya Gajanayaka</h3>
+          <div class="index">Index: 53606264</div>
+
+          <div class="grade-big">A</div>
+          <div class="subject-text">For ICT</div>
+
+          <p class="review-text">Good</p>
+        </div>
+
+        <div class="card">
+          <img src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783432834/2025%20OL/IMG_20260621_100455_-_gesandu_sanumitha_1_vp7g81.jpg" />
+          <h3>Gesandu Sanumitha Sri wijayagunawardana</h3>
+          <div class="index">Index: 53584848</div>
+
+          <div class="grade-big">A</div>
+          <div class="subject-text">For ICT</div>
+
+          <p class="review-text">
+            The 2 years that we've spent in the class was one of the best times
+            for me as going to the ict class was not a burden , it was engaging
+            and fun making the subject fun to learn . Thank you for shaping my
+            future and teaching us to get amazing results
+          </p>
+        </div>
+
+        <div class="card">
+          <img src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783433472/2025%20OL/IMG_5069_mels68.jpg" />
+          <h3>Siluni Tehara</h3>
+          <div class="index">Index: 53606159</div>
+
+          <div class="grade-big">A</div>
+          <div class="subject-text">For ICT</div>
+
+          <p class="review-text">Excellent class</p>
+        </div>
+
+        <div class="card">
+          <img src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783432824/2025%20OL/Snapchat-1652906034_1_-_Pehansa_Kariyapperuma_cpsq1a.jpg" />
+          <h3>Pehansa Kariyapperuma</h3>
+          <div class="index">Index: 53711785</div>
+
+          <div class="grade-big">A</div>
+          <div class="subject-text">For ICT</div>
+
+          <p class="review-text">
+            It was a fun and memorable learning experience. The lessons were
+            engaging, and the supportive classroom environment made learning ICT
+            enjoyable and motivating.
+          </p>
+        </div>
+
+        <div class="card">
+          <img src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783434066/2025%20OL/IMG_1457_zsuprk.jpg" />
+          <h3>Yuvin kemitha</h3>
+          <div class="index">Index: 53722825</div>
+
+          <div class="grade-big">A</div>
+          <div class="subject-text">For ICT</div>
+
+          <p class="review-text">
+            The best sir I met during ol time period who took me from W to A in
+            ICT.
+          </p>
+        </div>
+
+        <div class="card">
+          <img src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783433475/2025%20OL/IMG_1431_fmghcg.jpg" />
+          <h3>Himaru pabasara</h3>
+          <div class="index">Index: 53722809</div>
+
+          <div class="grade-big">B</div>
+          <div class="subject-text">For ICT</div>
+
+          <p class="review-text">Excellent</p>
+        </div>
+
+        <div class="card">
+          <img src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783432819/2025%20OL/Screenshot_2026-06-21-08-12-58-135_com.miui.gallery_-_Nishara_Prasangi_1_bbs8kl.jpg" />
+          <h3>Nevindi Chithmini De Silva</h3>
+          <div class="index">Index: 53525060</div>
+
+          <div class="grade-big">B</div>
+          <div class="subject-text">For ICT</div>
+
+          <p class="review-text">
+            The ICT class was one of the most enjoyable and memorable classes I
+            attended. It was always a class we looked forward to with
+            excitement. Our ICT Sir explained every lesson clearly and guided us
+            well, especially in preparing for examinations and answering papers
+            correctly. Because of Sir's dedication and support, we were able to
+            achieve good results. ICT became one of my favorite classes, and I
+            am truly grateful for all the knowledge, guidance, and encouragement
+            Sir gave us. Thank you, Sir, for helping us achieve these results.
+          </p>
+        </div>
+
+        <div class="card">
+          <img src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783434065/2025%20OL/IMG_1456_ckmuxy.jpg" />
+          <h3>Thumira prabhashwara</h3>
+          <div class="index">Index: 53722426</div>
+
+          <div class="grade-big">B</div>
+          <div class="subject-text">For ICT</div>
+
+          <p class="review-text">
+            Highly recommend very good teaching and we can understand easily
+          </p>
+        </div>
+
+        <div class="card">
+          <img src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783432815/2025%20OL/IMG-20260402-WA0000_-_rajitha_pandittesekere_g9zp97.jpg" />
+          <h3>Cheniru Apoorwa Dewdun Pandittesekere</h3>
+          <div class="index">Index: 53722647</div>
+
+          <div class="grade-big">B</div>
+          <div class="subject-text">For ICT</div>
+
+          <p class="review-text"></p>
+        </div>
+
+                <div class="card">
+          <img src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1783432826/2025%20OL/lv_0_20260602183657_-_Thatusha_S.Tharusha_Nimasara_1_kp4ebp.jpg" />
+          <h3>Tharusha Nimsara </h3>
+          <div class="index">Index: 53641795</div>
+
+          <div class="grade-big">C</div>
+          <div class="subject-text">For ICT</div>
+
+          <p class="review-text"></p>
+        </div>
+      </div>
+    </div>
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-container">
+        <!-- BRAND -->
+        <div class="footer-col">
+          <h2>NREducation 🚀</h2>
+          <p>
+            Empowering students with Maths & ICT knowledge to achieve top
+            results and build a successful future.
+          </p>
+        </div>
+
+        <!-- QUICK LINKS -->
+        <div class="footer-col">
+          <h3>Quick Links</h3>
+          <a href="home.html">Home</a>
+          <a href="Time_Table.html">Time Tables</a>
+          <a href="Student_Review.html">Reviews</a>
+          <a href="Weekly_Quiz.html">Quiz</a>
+          <a href="Class_Video_Links.html">Videos</a>
+        </div>
+
+        <!-- SERVICES -->
+        <div class="footer-col">
+          <h3>Services</h3>
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSdWyI6p3mHDDFbtMcj0f5zIT7nVaXAnKAlBcxYtKg0IvTLGvw/viewform?usp=header"
+            >Student Registration</a
+          >
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSc1dK6DBDRpyT3KgSD_3w4opnd2MuaLVDZKKyJaVGrOVAyVNw/viewform?usp=header"
+            >Class Fee Payment</a
+          >
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLScw7QFFCH4atpu9po5DxLhgL0ZffnWOTL1cKf8aJtyj2FWbhw/viewform?usp=header"
+            >Tute Request</a
+          >
+        </div>
+
+        <!-- CONTACT -->
+        <div class="footer-col">
+          <h3>Contact</h3>
+
+          <a href="tel:+94777916290">
+            <i class="fas fa-phone"></i> +94 77 791 6290
+          </a>
+          <p>📍 Sri Lanka</p>
+
+          <a href="https://wa.me/94777916290">💬 WhatsApp</a>
+
+          <!-- FACEBOOK -->
+          <a
+            href="https://www.facebook.com/share/18apyCLFqY/?mibextid=wwXIfr"
+            target="_blank"
+          >
+            <i class="fab fa-facebook"></i> NREducation.lk
+          </a>
+        </div>
+      </div>
+
+      <!-- BOTTOM -->
+      <div class="footer-bottom">
+        <p>© 2026 NREducation | All Rights Reserved</p>
+      </div>
+    </footer>
+  </body>
+</html>

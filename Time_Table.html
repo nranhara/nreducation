@@ -1,0 +1,478 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Time Table</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+        color: #1e293b;
+      }
+
+      /* NAVBAR */
+      .header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 40px;
+        background: white;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        z-index: 1000;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo img {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+      }
+
+      .logo span {
+        font-weight: 700;
+        font-size: 18px;
+      }
+
+      /* NAV LINKS */
+      .nav-links {
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-links a {
+        margin-left: 20px;
+        text-decoration: none;
+        color: #1e293b;
+        font-weight: 500;
+        transition: 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #3b82f6;
+      }
+
+      /* HAMBURGER */
+      .menu-btn {
+        display: none;
+        font-size: 26px;
+        cursor: pointer;
+      }
+
+      /* MOBILE NAV */
+      @media (max-width: 768px) {
+        .menu-btn {
+          display: block;
+        }
+
+        .nav-links {
+          position: absolute;
+          top: 70px;
+          left: 0;
+          width: 100%;
+          background: white;
+          flex-direction: column;
+          display: none;
+          padding: 10px 0;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links a {
+          margin: 15px 0;
+          text-align: center;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+      }
+
+      /* PAGE */
+      .container {
+        padding: 120px 40px 40px;
+        max-width: 1100px;
+        margin: auto;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      /* FILTER BUTTONS */
+      .filters {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .filters button {
+        margin: 5px;
+        padding: 10px 18px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        background: #3b82f6;
+        color: white;
+        transition: 0.3s;
+      }
+
+      .filters button:hover {
+        transform: scale(1.05);
+      }
+
+      /* INSTITUTE */
+      .institute {
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      .institute h2 {
+        margin-bottom: 15px;
+        color: #3b82f6;
+      }
+
+      .subject-title {
+        font-weight: 600;
+        margin-top: 10px;
+        margin-bottom: 8px;
+      }
+
+      .slot {
+        display: flex;
+        justify-content: space-between;
+        background: #f1f5f9;
+        padding: 12px 15px;
+        border-radius: 10px;
+        margin: 8px 0;
+      }
+
+      .slot strong {
+        display: block;
+      }
+
+      p {
+        margin-bottom: 25px;
+        color: #475569;
+      }
+
+      /* footer */
+
+      .footer {
+        background: #0f172a;
+        color: #cbd5f5;
+        padding: 50px 40px 20px;
+        margin-top: 50px;
+      }
+
+      .footer-container {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 30px;
+      }
+
+      .footer-col {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .footer-col h2,
+      .footer-col h3 {
+        color: white;
+        margin-bottom: 15px;
+      }
+
+      .footer-col p {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 8px 0;
+      }
+      .footer-col a {
+        display: block;
+        text-decoration: none;
+        color: #cbd5f5;
+        margin: 8px 0;
+        transition: 0.3s;
+        font-size: 14px;
+      }
+
+      .footer-col a:hover {
+        color: #3b82f6;
+        transform: translateX(5px);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 30px;
+        padding-top: 15px;
+        font-size: 13px;
+        color: #94a3b8;
+      }
+
+      /* MOBILE */
+      @media (max-width: 768px) {
+        .footer-container {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .footer-col a:hover {
+          transform: none;
+        }
+      }
+
+      .footer-col a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .footer-col a i {
+        color: #1877f2;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("navLinks").classList.toggle("active");
+    }
+  </script>
+
+  <body>
+    <!-- NAVBAR -->
+    <div class="header">
+      <div class="logo">
+        <img
+          src="https://res.cloudinary.com/dlcjtqjvm/image/upload/v1794549365/IMG_3639-Photoroom_jciw5l.png"
+        />
+        <span>NReducation</span>
+      </div>
+
+      <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+      <div class="nav-links" id="navLinks">
+        <a href="home.html">Home</a>
+        <a href="Time_Table.html">Time Tables</a>
+        <a href="Student_Review.html">Reviews</a>
+        <a href="Weekly_Quiz.html">Quiz</a>
+        <a href="Class_Video_Links.html">Videos</a>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="container">
+      <h1>📅 Class Time Table</h1>
+
+      <!-- FILTER -->
+      <div class="filters">
+        <button onclick="filter('all')">📅 All</button>
+        <button onclick="filter('maths')">📐 Maths</button>
+        <button onclick="filter('ict')">💻 ICT</button>
+      </div>
+
+      <!-- DAHAM MAWATHA -->
+      <div class="institute maths ict">
+        <h2>🏫 Daham Mawatha Institute - Malabe (Physical & Online - Zoom)</h2>
+
+        <div class="subject-title">📐 Mathematics</div>
+
+        <div class="slot maths">
+          <strong>Grade 6</strong><span>Saturday 2.00 PM - 4.00 PM</span>
+        </div>
+        <div class="slot maths">
+          <strong>Grade 7</strong><span>Saturday 8.00 AM - 10.00 AM</span>
+        </div>
+        <div class="slot maths">
+          <strong>Grade 8</strong><span>Saturday 10.00 AM - 12.00 PM</span>
+        </div>
+        <div class="slot maths">
+          <strong>Grade 9</strong><span>Saturday 12.00 PM - 2.00 PM</span>
+        </div>
+        <div class="slot maths">
+          <strong>Grade 10</strong><span>Tuesday 4.00 PM - 6.00 PM</span>
+        </div>
+        <div class="slot maths">
+          <strong>Grade 10 Paper </strong><span>Tuesday 6.00 PM - 8.00 PM</span>
+        </div>
+        <div class="slot maths">
+          <strong>Grade 10 Special</strong
+          ><span>Tuesday 8.00 PM - 10.00 PM</span>
+        </div>
+        <div class="slot maths">
+          <strong>Grade 11 Paper</strong
+          ><span>Wednesday 6.00 PM - 8.00 PM</span>
+        </div>
+        <div class="slot maths">
+          <strong>Grade 11 Theory</strong
+          ><span>Wednesday 8.00 PM - 10.00 PM</span>
+        </div>
+
+        <div class="subject-title">💻 ICT</div>
+        <div class="slot ict">
+          <strong>Grade 10 </strong><span>Wednesday 6.00 PM - 8.00 PM</span>
+        </div>
+      </div>
+
+      <!-- VIDYADEEPA -->
+      <div class="institute maths">
+        <h2>🏫 Vidyadeepa Institute - Malabe</h2>
+
+        <div class="slot maths">
+          <strong>Grade 7</strong><span>Sunday 6.30 PM - 8.30 PM</span>
+        </div>
+
+        <div class="slot maths">
+          <strong>Grade 9</strong><span>Sunday 4.30 PM - 6.30 PM</span>
+        </div>
+      </div>
+
+      <!-- SAKMA -->
+      <div class="institute maths">
+        <h2>🏫 Sakma Institute - Wellampitiya</h2>
+
+        <div class="slot maths">
+          <strong>Grade 6</strong><span>Thursday 3.30 PM - 5.00 PM</span>
+        </div>
+        <div class="slot maths">
+          <strong>Grade 7</strong><span>Thursday 3.30 PM - 5.00 PM</span>
+        </div>
+        <div class="slot maths">
+          <strong>Grade 8</strong><span>Thursday 4.30 PM - 6.00 PM</span>
+        </div>
+      </div>
+
+      <!-- DINAKARA -->
+      <div class="institute ict">
+        <h2>🏫 Dinakara Institute - Walpola</h2>
+
+        <div class="subject-title">💻 ICT</div>
+        <div class="slot ict">
+          <strong>Grade 10 </strong><span>Friday 5.30 PM - 7.30 PM</span>
+        </div>
+
+        <div class="slot ict">
+          <strong>Grade 11 Paper </strong><span>Friday 6.30 PM - 8.30 PM</span>
+        </div>
+
+        <div class="slot ict">
+          <strong>Grade 11 Theory </strong
+          ><span>Friday 8.30 PM - 10.30 PM</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function filter(type) {
+        let slots = document.querySelectorAll(".slot");
+
+        slots.forEach((slot) => {
+          if (type === "all") {
+            slot.style.display = "flex";
+          } else if (slot.classList.contains(type)) {
+            slot.style.display = "flex";
+          } else {
+            slot.style.display = "none";
+          }
+        });
+      }
+    </script>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-container">
+        <!-- BRAND -->
+        <div class="footer-col">
+          <h2>NREducation 🚀</h2>
+          <p>
+            Empowering students with Maths & ICT knowledge to achieve top
+            results and build a successful future.
+          </p>
+        </div>
+
+        <!-- QUICK LINKS -->
+        <div class="footer-col">
+          <h3>Quick Links</h3>
+          <a href="home.html">Home</a>
+          <a href="Time_Table.html">Time Tables</a>
+          <a href="Student_Review.html">Reviews</a>
+          <a href="Weekly_Quiz.html">Quiz</a>
+          <a href="Class_Video_Links.html">Videos</a>
+        </div>
+
+        <!-- SERVICES -->
+        <div class="footer-col">
+          <h3>Services</h3>
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSdWyI6p3mHDDFbtMcj0f5zIT7nVaXAnKAlBcxYtKg0IvTLGvw/viewform?usp=header"
+            >Student Registration</a
+          >
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSc1dK6DBDRpyT3KgSD_3w4opnd2MuaLVDZKKyJaVGrOVAyVNw/viewform?usp=header"
+            >Class Fee Payment</a
+          >
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLScw7QFFCH4atpu9po5DxLhgL0ZffnWOTL1cKf8aJtyj2FWbhw/viewform?usp=header"
+            >Tute Request</a
+          >
+        </div>
+
+        <!-- CONTACT -->
+        <div class="footer-col">
+          <h3>Contact</h3>
+
+          <a href="tel:+94777916290">
+            <i class="fas fa-phone"></i> +94 77 791 6290
+          </a>
+          <p>📍 Sri Lanka</p>
+
+          <a href="https://wa.me/94777916290">💬 WhatsApp</a>
+
+          <!-- FACEBOOK -->
+          <a
+            href="https://www.facebook.com/share/18apyCLFqY/?mibextid=wwXIfr"
+            target="_blank"
+          >
+            <i class="fab fa-facebook"></i> NREducation.lk
+          </a>
+        </div>
+      </div>
+
+      <!-- BOTTOM -->
+      <div class="footer-bottom">
+        <p>© 2026 NREducation | All Rights Reserved</p>
+      </div>
+    </footer>
+  </body>
+</html>
